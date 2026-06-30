@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Weekly Dashboard</title>
+<style>
+:root{--cream:#F5EFE6;--cream-card:#FBF7F0;--warm-brown:#6B5B4D;--terracotta:#C9714D;--sage:#8FA888;--line-soft:#E5DCCB}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);font-family:-apple-system,system-ui,sans-serif;color:var(--warm-brown);min-height:100vh;padding-bottom:88px}
+.app{max-width:420px;margin:0 auto;padding:0 16px}
+.hdr{padding:20px 0 12px}
+.hdr h1{font-size:26px;font-weight:700}
+.hdr .wr{font-size:13px;opacity:.55;margin-top:2px}
+.card{background:var(--cream-card);border-radius:20px;box-shadow:0 4px 14px rgba(107,91,77,.10);border:1px solid rgba(255,255,255,.6);padding:18px;margin-bottom:14px}
+.ct{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;opacity:.5;margin-bottom:12px}
+.aff{background:var(--terracotta);border-radius:20px;box-shadow:0 6px 22px rgba(201,113,77,.35);padding:22px 20px;margin-bottom:14px;color:#fff}
+.aff .hl{font-size:15px;font-weight:600;line-height:1.5;margin-bottom:10px}
+.aff .sub{font-size:13px;line-height:1.55;opacity:.88}
+.tab-content{display:none}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(245,239,230,.96);backdrop-filter:blur(8px);padding:10px 16px 20px;display:flex;justify-content:center;gap:8px;border-top:1px solid var(--line-soft)}
+.np{flex:1;max-width:112px;padding:10px 0;text-align:center;border-radius:14px;font-size:13px;font-weight:500;cursor:pointer;background:var(--cream-card);color:var(--warm-brown);box-shadow:0 4px 14px rgba(107,91,77,.10);border:1px solid rgba(255,255,255,.6);transition:background .15s,color .15s}
+.np.active{background:var(--terracotta);color:#fff;box-shadow:0 4px 14px rgba(201,113,77,.30);border-color:transparent}
+.wi{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(201,113,77,.15);color:var(--terracotta);font-weight:700;font-size:15px;flex-shrink:0;margin-right:10px;margin-top:1px}
+.sb{flex:1;text-align:center;border-radius:12px;padding:14px 8px}
+.sb .sn{font-size:26px;font-weight:700;line-height:1}
+.sb .sl{font-size:11px;margin-top:5px;opacity:.65;line-height:1.3}
+.hstat{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.hstat div{font-size:13px}
+.hstat span{font-weight:600;color:var(--terracotta)}
+.lgnd{display:flex;gap:14px;margin-bottom:10px;align-items:center}
+.li{display:flex;align-items:center;gap:5px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hdr">
+    <h1>Your Week</h1>
+    <div class="wr" id="wr"></div>
+    <div id="logged-info" style="font-size:12px;margin-top:4px;opacity:.6"></div>
+  </div>
+
+  <div class="tab-content" id="tab-week" style="display:block">
+    <div id="aff"></div>
+    <div class="card">
+      <div class="lgnd">
+        <div class="li"><svg width="22" height="10"><line x1="0" y1="5" x2="22" y2="5" stroke="#C9714D" stroke-width="2.5" stroke-linecap="round"/></svg><span>Performance</span></div>
+        <div class="li"><svg width="22" height="10"><line x1="0" y1="5" x2="22" y2="5" stroke="#8FA888" stroke-width="2" stroke-dasharray="5,3"/></svg><span>Inner State</span></div>
+      </div>
+      <div id="chart"></div>
+      <div style="font-size:11px;opacity:.4;margin-top:5px">&#9679; below axis = Deep Work day</div>
+    </div>
+    <div id="streaks"></div>
+    <div id="dw"></div>
+    <div id="watch"></div>
+  </div>
+
+  <div class="tab-content" id="tab-history">
+    <div id="hist"></div>
+  </div>
+
+  <div class="tab-content" id="tab-journal">
+    <div id="journal-content"></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="np active" data-tab="week">This Week</button>
+  <button class="np" data-tab="history">History</button>
+  <button class="np" data-tab="journal">Journal</button>
+</nav>
+
+<script>
+const DASHBOARD_DATA = {"week_range": {"start": "2026-06-23", "end": "2026-06-29"}, "logged_count": 1, "gap_dates": ["2026-06-23", "2026-06-24", "2026-06-25", "2026-06-27", "2026-06-28", "2026-06-29"], "daily_entries": [{"date": "2026-06-23", "performance": null, "inner_state": null, "Read Day Plan": false, "Deep Work": false, "Learn 1 Thing": false, "Sleep": false, "Social Media": false, "Work Out": false, "Put Phone away": false, "Work Session Plan": false, "logged": false}, {"date": "2026-06-24", "performance": null, "inner_state": null, "Read Day Plan": false, "Deep Work": false, "Learn 1 Thing": false, "Sleep": false, "Social Media": false, "Work Out": false, "Put Phone away": false, "Work Session Plan": false, "logged": false}, {"date": "2026-06-25", "performance": null, "inner_state": null, "Read Day Plan": false, "Deep Work": false, "Learn 1 Thing": false, "Sleep": false, "Social Media": false, "Work Out": false, "Put Phone away": false, "Work Session Plan": false, "logged": false}, {"date": "2026-06-26", "performance": 3, "inner_state": 4, "Read Day Plan": false, "Deep Work": false, "Learn 1 Thing": false, "Sleep": true, "Social Media": false, "Work Out": false, "Put Phone away": false, "Work Session Plan": false, "logged": true}, {"date": "2026-06-27", "performance": null, "inner_state": null, "Read Day Plan": false, "Deep Work": false, "Learn 1 Thing": false, "Sleep": true, "Social Media": false, "Work Out": false, "Put Phone away": false, "Work Session Plan": false, "logged": false}, {"date": "2026-06-28", "performance": null, "inner_state": null, "Read Day Plan": false, "Deep Work": false, "Learn 1 Thing": false, "Sleep": true, "Social Media": false, "Work Out": false, "Put Phone away": false, "Work Session Plan": false, "logged": false}, {"date": "2026-06-29", "performance": null, "inner_state": null, "Read Day Plan": false, "Deep Work": false, "Learn 1 Thing": false, "Sleep": false, "Social Media": false, "Work Out": false, "Put Phone away": false, "Work Session Plan": false, "logged": false}], "streaks": {"Read Day Plan": 0, "Deep Work": 0, "Learn 1 Thing": 0, "Sleep": 1, "Social Media": 0, "Work Out": 0, "Put Phone away": 0, "Work Session Plan": 0}, "deep_work_comparison": {"with_deep_work_avg_performance": "N/A", "without_deep_work_avg_performance": 3.0, "sample_size": 7}, "journal_lines": [{"date": "2026-06-23", "do_differently": "", "journal": "These notes carry forward to tomorrow's page."}, {"date": "2026-06-24", "do_differently": "", "journal": ""}, {"date": "2026-06-25", "do_differently": "", "journal": ""}, {"date": "2026-06-26", "do_differently": "Wake up at 9 AM", "journal": "These notes carry forward to tomorrow's page."}, {"date": "2026-06-27", "do_differently": "", "journal": "These notes carry forward to tomorrow's page."}, {"date": "2026-06-28", "do_differently": "", "journal": "These notes carry forward to tomorrow's page."}, {"date": "2026-06-29", "do_differently": "", "journal": "These notes carry forward to tomorrow's page."}], "week_summary": {"avg_performance": 3.0, "avg_inner_state": 4.0, "deep_work_days": 0, "top_habit": "Sleep"}, "insights": {"affirmation": "You're one week out from surgery and you still showed up on June 26th. That day you logged a 4 for inner state and kept Sleep on track — that's not nothing when your body is still recovering. The fact that you're even thinking about the week ahead tells me you're ready to rebuild momentum.", "forward_note": "This week, focus on one thing: logging your day every evening, even if it's a recovery day. You don't need perfect habits yet — you need the rhythm back. Once you're tracking consistently, the habits will follow naturally. Start there.", "slipping_note": "Deep Work didn't happen this week, and that's expected given the surgery recovery. Now that you're a week out, it's time to reintroduce it — even if it's just 30 minutes to start."}};
+const HISTORY_DATA = [{"week_start": "2026-06-11", "week_end": "2026-06-17", "avg_performance": 7.2, "avg_inner_state": 7.3, "deep_work_days": 2, "top_habit": "Read Day Plan"}, {"week_start": "2026-06-12", "week_end": "2026-06-18", "avg_performance": 7.2, "avg_inner_state": 7.2, "deep_work_days": 3, "top_habit": "Read Day Plan"}, {"week_start": "2026-06-13", "week_end": "2026-06-19", "avg_performance": 7.2, "avg_inner_state": 6.8, "deep_work_days": 4, "top_habit": "Deep Work"}, {"week_start": "2026-06-14", "week_end": "2026-06-20", "avg_performance": 6.8, "avg_inner_state": 7.0, "deep_work_days": 4, "top_habit": "Read Day Plan"}, {"week_start": "2026-06-15", "week_end": "2026-06-21", "avg_performance": 6.7, "avg_inner_state": 6.8, "deep_work_days": 5, "top_habit": "Read Day Plan"}, {"week_start": "2026-06-16", "week_end": "2026-06-22", "avg_performance": 6.2, "avg_inner_state": 6.4, "deep_work_days": 5, "top_habit": "Read Day Plan"}, {"week_start": "2026-06-17", "week_end": "2026-06-23", "avg_performance": 6.2, "avg_inner_state": 6.2, "deep_work_days": 6, "top_habit": "Deep Work"}, {"week_start": "2026-06-20", "week_end": "2026-06-26", "avg_performance": 7.0, "avg_inner_state": 7.0, "deep_work_days": 3, "top_habit": "Deep Work"}, {"week_start": "2026-06-21", "week_end": "2026-06-27", "avg_performance": 3.0, "avg_inner_state": 4.0, "deep_work_days": 2, "top_habit": "Sleep"}, {"week_start": "2026-06-22", "week_end": "2026-06-28", "avg_performance": 3.0, "avg_inner_state": 4.0, "deep_work_days": 1, "top_habit": "Sleep"}, {"week_start": "2026-06-23", "week_end": "2026-06-29", "avg_performance": 3.0, "avg_inner_state": 4.0, "deep_work_days": 0, "top_habit": "Sleep"}];
+</script>
+<script>
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function fmt(iso){
+  const d=new Date(iso+'T12:00:00');
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+
+function buildChart(entries){
+  const W=340,H=155,PT=10,PR=10,PB=44,PL=10;
+  const cW=W-PL-PR,cH=H-PT-PB,n=entries.length;
+  const xp=i=>PL+i*(cW/(n-1));
+  const yp=v=>PT+cH-((v-1)/9)*cH;
+  function mkpath(key){
+    let d='',pen=false;
+    entries.forEach((e,i)=>{
+      const v=e[key];
+      if(v!==null&&v!==undefined){
+        const x=xp(i).toFixed(1),y=yp(v).toFixed(1);
+        d+=pen?' L '+x+' '+y:'M '+x+' '+y;pen=true;
+      }else pen=false;
+    });
+    return d;
+  }
+  const ltrs=entries.map(e=>['S','M','T','W','T','F','S'][new Date(e.date+'T12:00:00').getDay()]);
+  const grid=[3,5,7,9].map(v=>{const y=yp(v).toFixed(1);return '<line x1="'+PL+'" y1="'+y+'" x2="'+(W-PR)+'" y2="'+y+'" stroke="#E5DCCB" stroke-width="1"/>';}).join('');
+  const xl=ltrs.map((l,i)=>'<text x="'+xp(i).toFixed(1)+'" y="'+(PT+cH+16).toFixed(1)+'" text-anchor="middle" font-size="11" fill="#6B5B4D" font-family="system-ui">'+l+'</text>').join('');
+  const pd=mkpath('performance'),sd=mkpath('inner_state');
+  const dots=entries.map((e,i)=>e.performance!=null?'<circle cx="'+xp(i).toFixed(1)+'" cy="'+yp(e.performance).toFixed(1)+'" r="3" fill="#C9714D"/>':'').join('');
+  const dwd=entries.map((e,i)=>e['Deep Work']===true?'<circle cx="'+xp(i).toFixed(1)+'" cy="'+(PT+cH+32).toFixed(1)+'" r="4" fill="#C9714D" opacity=".75"/>':'').join('');
+  return '<svg width="100%" viewBox="0 0 '+W+' '+H+'" style="display:block">'+grid+
+    (pd?'<path d="'+pd+'" stroke="#C9714D" stroke-width="2.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>':'')+
+    (sd?'<path d="'+sd+'" stroke="#8FA888" stroke-width="2" fill="none" stroke-dasharray="5,3" stroke-linejoin="round" stroke-linecap="round"/>':'')+
+    dots+xl+dwd+'</svg>';
+}
+
+function buildStreaks(data){
+  const entries=data.daily_entries,streaks=data.streaks;
+  const cols=Object.keys(streaks);
+  // Count only logged days for habit totals
+  const cnts={};cols.forEach(h=>{cnts[h]=entries.filter(e=>e[h]===true&&e.logged).length;});
+  const sorted=[...cols].sort((a,b)=>cnts[b]-cnts[a]||a.localeCompare(b));
+  const rows=sorted.map(h=>{
+    const sqs=entries.map(e=>{
+      var bg,title;
+      if(!e.logged){bg='#EDE7DC';title='gap day';}
+      else if(e[h]===true){bg='#C9714D';title='done';}
+      else{bg='#E5DCCB';title='missed';}
+      return '<div style="width:22px;height:22px;border-radius:5px;flex-shrink:0;background:'+bg+';'+((!e.logged)?'border:1.5px dashed #B8A898;box-sizing:border-box;':'')+'" title="'+title+'"></div>';
+    }).join('');
+    return '<div style="display:flex;align-items:center;gap:7px;margin-bottom:9px">'+
+      '<span style="flex:1;font-size:13px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;min-width:0">'+esc(h)+'</span>'+
+      '<div style="display:flex;gap:3px">'+sqs+'</div>'+
+      '<span style="background:#C9714D;color:#fff;border-radius:9px;padding:2px 8px;font-size:12px;font-weight:600;flex-shrink:0">'+(streaks[h]||0)+'</span>'+
+      '</div>';
+  }).join('');
+  var legend='<div style="display:flex;gap:12px;margin-bottom:10px;font-size:11px;opacity:.6">'+
+    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#C9714D;margin-right:3px"></span>done</span>'+
+    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#E5DCCB;margin-right:3px"></span>missed</span>'+
+    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#EDE7DC;border:1px dashed #B8A898;margin-right:3px"></span>gap</span>'+
+    '</div>';
+  return '<div class="card"><div class="ct">Habit Streaks</div>'+legend+rows+'</div>';
+}
+
+function buildDW(data){
+  const dw=data.deep_work_comparison;
+  const wdw=dw.with_deep_work_avg_performance,wodw=dw.without_deep_work_avg_performance;
+  if(wdw==='N/A'||wodw==='N/A')return '<div class="card"><div class="ct">What&#39;s Driving It</div><p style="font-size:14px">Not enough data yet.</p></div>';
+  return '<div class="card"><div class="ct">What&#39;s Driving It</div>'+
+    '<div style="display:flex;gap:12px;margin-bottom:12px">'+
+    '<div class="sb" style="background:rgba(201,113,77,.1)"><div class="sn" style="color:#C9714D">'+wdw+'</div><div class="sl">avg on Deep Work days</div></div>'+
+    '<div class="sb" style="background:rgba(107,91,77,.07)"><div class="sn" style="color:#6B5B4D">'+wodw+'</div><div class="sl">avg without</div></div>'+
+    '</div><p style="font-size:13px">Deep Work was your strongest lever this week.</p></div>';
+}
+
+function buildWatch(ins){
+  return '<div class="card"><div class="ct">Worth Watching</div>'+
+    '<div style="display:flex;align-items:flex-start">'+
+    '<div class="wi">!</div>'+
+    '<p style="font-size:14px;line-height:1.6">'+esc(ins.slipping_note||'')+'</p>'+
+    '</div></div>';
+}
+
+function buildHist(history){
+  if(!history||!history.length)return '<div class="card"><p style="font-size:14px">No history yet.</p></div>';
+  const sorted=[...history].sort((a,b)=>b.week_start.localeCompare(a.week_start));
+  let html=sorted.map(e=>
+    '<div class="card">'+
+    '<div style="font-size:12px;opacity:.5;margin-bottom:8px">'+fmt(e.week_start)+' – '+fmt(e.week_end)+'</div>'+
+    '<div class="hstat">'+
+    '<div>Performance <span>'+(e.avg_performance||'–')+'</span></div>'+
+    '<div>Inner State <span>'+(e.avg_inner_state||'–')+'</span></div>'+
+    '<div>Deep Work <span>'+e.deep_work_days+'/7</span></div>'+
+    '<div>Top habit <span>'+(e.top_habit||'–')+'</span></div>'+
+    '</div></div>'
+  ).join('');
+  if(history.length===1)html+='<p style="font-size:13px;text-align:center;opacity:.45;padding:4px 0 10px">More weeks will appear here as the summer progresses.</p>';
+  return html;
+}
+
+function buildJournal(data){
+  var lines=data.journal_lines||[];
+  var filler="These notes carry forward to tomorrow's page.";
+  var cards=lines.filter(function(e){
+    return e.do_differently||(e.journal&&e.journal!==filler);
+  }).map(function(e){
+    var h='<div class="card"><div class="ct">'+fmt(e.date)+'</div>';
+    if(e.do_differently){
+      h+='<div style="margin-bottom:10px">';
+      h+='<div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;opacity:.5;margin-bottom:4px">One thing differently</div>';
+      h+='<p style="font-size:14px;line-height:1.55">'+esc(e.do_differently)+'</p></div>';
+    }
+    if(e.journal&&e.journal!==filler){
+      h+='<div>';
+      h+='<div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;opacity:.5;margin-bottom:4px">Reflection</div>';
+      h+='<p style="font-size:14px;line-height:1.55">'+esc(e.journal)+'</p></div>';
+    }
+    h+='</div>';
+    return h;
+  });
+  if(!cards.length)return '<div class="card"><p style="font-size:14px">No journal entries this week yet.</p></div>';
+  return cards.join('');
+}
+
+function render(){
+  const d=DASHBOARD_DATA,ins=d.insights||{},wr=d.week_range;
+  document.getElementById('wr').textContent=fmt(wr.start)+' – '+fmt(wr.end);
+  var loggedEl=document.getElementById('logged-info');
+  if(loggedEl){
+    var lc=d.logged_count!=null?d.logged_count:d.daily_entries.filter(function(e){return e.logged;}).length;
+    var total=d.daily_entries.length;
+    loggedEl.textContent=lc+' / '+total+' days logged this week';
+  }
+  document.getElementById('aff').innerHTML='<div class="aff"><div class="hl">'+esc(ins.affirmation||'')+'</div><div class="sub">'+esc(ins.forward_note||'')+'</div></div>';
+  document.getElementById('chart').innerHTML=buildChart(d.daily_entries);
+  document.getElementById('streaks').innerHTML=buildStreaks(d);
+  document.getElementById('dw').innerHTML=buildDW(d);
+  document.getElementById('watch').innerHTML=buildWatch(ins);
+  document.getElementById('hist').innerHTML=buildHist(HISTORY_DATA);
+  document.getElementById('journal-content').innerHTML=buildJournal(d);
+}
+(function init(){
+  render();
+  document.querySelectorAll('.np').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var tab=this.getAttribute('data-tab');
+      document.querySelectorAll('.tab-content').forEach(function(el){el.style.display='none';});
+      document.querySelectorAll('.np').forEach(function(el){el.classList.remove('active');});
+      var target=document.getElementById('tab-'+tab);
+      if(target)target.style.display='block';
+      this.classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>

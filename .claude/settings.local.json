@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install *)",
+      "Bash(python main.py)",
+      "PowerShell(cd \"c:\\\\Personal\\\\AI Experimenting\\\\daily-planner\"; $null = python dashboard.py 2>&1 | Out-Null; python dashboard.py 2>$null | Out-File -Encoding utf8 \"dashboard_test_out.json\"; python -m json.tool \"dashboard_test_out.json\" | Select-String \"week_range|start|end|avg_perf|top_habit|deep_work_days|sample_size\"; Write-Host \"---history entries:\"; \\(Get-Content dashboard_history.json | ConvertFrom-Json\\).Count)",
+      "PowerShell(cd \"c:\\\\Personal\\\\AI Experimenting\\\\daily-planner\"; python dashboard.py 2>run.log >dashboard_out.json; $rc=$LASTEXITCODE; Get-Content run.log | Select-Object -Last 8; Write-Host \"---\"; Write-Host \"Exit code: $rc\")",
+      "PowerShell(cd \"c:\\\\Personal\\\\AI Experimenting\\\\daily-planner\"; $d = Get-Content dashboard_out.json | ConvertFrom-Json; Write-Host \"=== JOURNAL LINES ===\"; $d.journal_lines | ForEach-Object { if \\($_.do_differently -or \\($_.journal -and $_.journal -ne \"These notes carry forward to tomorrow's page.\"\\)\\) { Write-Host \"Date: $\\($_.date\\)\"; if \\($_.do_differently\\) { Write-Host \"  One thing differently: $\\($_.do_differently\\)\" }; if \\($_.journal -and $_.journal -ne \"These notes carry forward to tomorrow's page.\"\\) { Write-Host \"  Reflection: $\\($_.journal\\)\" }; Write-Host \"\" } }; Write-Host \"=== INSIGHTS \\(check for em-dashes\\) ===\"; Write-Host \"Affirmation: $\\($d.insights.affirmation\\)\"; Write-Host \"Forward: $\\($d.insights.forward_note\\)\"; Write-Host \"Slipping: $\\($d.insights.slipping_note\\)\")",
+      "PowerShell(python -c \"import notion_client; import inspect; src = inspect.getsource\\(notion_client\\); lines = src.split\\('\\\\n'\\)[:50]; print\\('\\\\n'.join\\(lines\\)\\)\" 2>&1)",
+      "PowerShell(python -c \"import notion_client; print\\(notion_client.__version__\\)\" 2>&1)",
+      "PowerShell(python -c \"import httpx; print\\('httpx available'\\); import notion_client.client as nc; import inspect; src=inspect.getsource\\(nc\\); print\\([l for l in src.split\\('\\\\n'\\) if 'httpx' in l or 'requests' in l][:10]\\)\" 2>&1)",
+      "PowerShell(py --list 2>&1)",
+      "PowerShell(python --version 2>&1)",
+      "Bash(command -v bun)",
+      "Bash(bun --version)"
+    ]
+  }
+}
