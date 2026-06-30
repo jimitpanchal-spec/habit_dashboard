@@ -1,0 +1,90 @@
+[
+  {
+    "week_start": "2026-06-11",
+    "week_end": "2026-06-17",
+    "avg_performance": 7.2,
+    "avg_inner_state": 7.3,
+    "deep_work_days": 2,
+    "top_habit": "Read Day Plan"
+  },
+  {
+    "week_start": "2026-06-12",
+    "week_end": "2026-06-18",
+    "avg_performance": 7.2,
+    "avg_inner_state": 7.2,
+    "deep_work_days": 3,
+    "top_habit": "Read Day Plan"
+  },
+  {
+    "week_start": "2026-06-13",
+    "week_end": "2026-06-19",
+    "avg_performance": 7.2,
+    "avg_inner_state": 6.8,
+    "deep_work_days": 4,
+    "top_habit": "Deep Work"
+  },
+  {
+    "week_start": "2026-06-14",
+    "week_end": "2026-06-20",
+    "avg_performance": 6.8,
+    "avg_inner_state": 7.0,
+    "deep_work_days": 4,
+    "top_habit": "Read Day Plan"
+  },
+  {
+    "week_start": "2026-06-15",
+    "week_end": "2026-06-21",
+    "avg_performance": 6.7,
+    "avg_inner_state": 6.8,
+    "deep_work_days": 5,
+    "top_habit": "Read Day Plan"
+  },
+  {
+    "week_start": "2026-06-16",
+    "week_end": "2026-06-22",
+    "avg_performance": 6.2,
+    "avg_inner_state": 6.4,
+    "deep_work_days": 5,
+    "top_habit": "Read Day Plan"
+  },
+  {
+    "week_start": "2026-06-17",
+    "week_end": "2026-06-23",
+    "avg_performance": 6.2,
+    "avg_inner_state": 6.2,
+    "deep_work_days": 6,
+    "top_habit": "Deep Work"
+  },
+  {
+    "week_start": "2026-06-20",
+    "week_end": "2026-06-26",
+    "avg_performance": 7.0,
+    "avg_inner_state": 7.0,
+    "deep_work_days": 3,
+    "top_habit": "Deep Work"
+  },
+  {
+    "week_start": "2026-06-21",
+    "week_end": "2026-06-27",
+    "avg_performance": 3.0,
+    "avg_inner_state": 4.0,
+    "deep_work_days": 2,
+    "top_habit": "Sleep"
+  },
+  {
+    "week_start": "2026-06-22",
+    "week_end": "2026-06-28",
+    "avg_performance": 3.0,
+    "avg_inner_state": 4.0,
+    "deep_work_days": 1,
+    "top_habit": "Sleep"
+  },
+  {
+    "week_start": "2026-06-23",
+    "week_end": "2026-06-29",
+    "avg_performance": 3.0,
+    "avg_inner_state": 4.0,
+    "deep_work_days": 0,
+    "top_habit": "Sleep"
+  }
+]
