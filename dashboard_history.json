@@ -94,5 +94,13 @@
     "avg_inner_state": 5.5,
     "deep_work_days": 0,
     "top_habit": "Sleep"
+  },
+  {
+    "week_start": "2026-06-25",
+    "week_end": "2026-07-01",
+    "avg_performance": 5.3,
+    "avg_inner_state": 6.0,
+    "deep_work_days": 1,
+    "top_habit": "Sleep"
   }
 ]
