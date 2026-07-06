@@ -134,5 +134,13 @@
     "avg_inner_state": 5.7,
     "deep_work_days": 5,
     "top_habit": "Read Day Plan"
+  },
+  {
+    "week_start": "2026-06-30",
+    "week_end": "2026-07-06",
+    "avg_performance": 6.8,
+    "avg_inner_state": 5.7,
+    "deep_work_days": 6,
+    "top_habit": "Deep Work"
   }
 ]
