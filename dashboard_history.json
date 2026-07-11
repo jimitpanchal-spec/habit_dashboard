@@ -178,9 +178,9 @@
   {
     "week_start": "2026-07-05",
     "week_end": "2026-07-11",
-    "avg_performance": 7.4,
-    "avg_inner_state": 7.4,
-    "deep_work_days": 5,
+    "avg_performance": 7.3,
+    "avg_inner_state": 7.2,
+    "deep_work_days": 6,
     "top_habit": "Deep Work"
   }
 ]
