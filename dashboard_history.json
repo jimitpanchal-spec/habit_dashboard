@@ -398,5 +398,13 @@
     "avg_inner_state": 7.0,
     "deep_work_days": 3,
     "top_habit": "Social Media"
+  },
+  {
+    "week_start": "2026-08-03",
+    "week_end": "2026-08-09",
+    "avg_performance": 6.2,
+    "avg_inner_state": 6.8,
+    "deep_work_days": 2,
+    "top_habit": "Social Media"
   }
 ]
