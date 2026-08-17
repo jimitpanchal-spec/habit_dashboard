@@ -384,6 +384,62 @@
     "top_habit": "Work Out"
   },
   {
+    "week_start": "2026-08-01",
+    "week_end": "2026-08-07",
+    "avg_performance": 6.3,
+    "avg_inner_state": 6.8,
+    "deep_work_days": 3,
+    "top_habit": "Social Media"
+  },
+  {
+    "week_start": "2026-08-02",
+    "week_end": "2026-08-08",
+    "avg_performance": 6.3,
+    "avg_inner_state": 7.0,
+    "deep_work_days": 3,
+    "top_habit": "Social Media"
+  },
+  {
+    "week_start": "2026-08-03",
+    "week_end": "2026-08-09",
+    "avg_performance": 6.2,
+    "avg_inner_state": 6.8,
+    "deep_work_days": 2,
+    "top_habit": "Social Media"
+  },
+  {
+    "week_start": "2026-08-04",
+    "week_end": "2026-08-10",
+    "avg_performance": 6.0,
+    "avg_inner_state": 6.8,
+    "deep_work_days": 2,
+    "top_habit": "Social Media"
+  },
+  {
+    "week_start": "2026-08-05",
+    "week_end": "2026-08-11",
+    "avg_performance": 6.7,
+    "avg_inner_state": 7.5,
+    "deep_work_days": 3,
+    "top_habit": "Learn 1 Thing"
+  },
+  {
+    "week_start": "2026-08-06",
+    "week_end": "2026-08-12",
+    "avg_performance": 7.0,
+    "avg_inner_state": 7.2,
+    "deep_work_days": 3,
+    "top_habit": "Learn 1 Thing"
+  },
+  {
+    "week_start": "2026-08-07",
+    "week_end": "2026-08-13",
+    "avg_performance": 7.0,
+    "avg_inner_state": 7.3,
+    "deep_work_days": 3,
+    "top_habit": "Learn 1 Thing"
+  },
+  {
     "week_start": "2026-08-08",
     "week_end": "2026-08-14",
     "avg_performance": 6.8,
