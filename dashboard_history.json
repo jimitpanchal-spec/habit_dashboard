@@ -486,5 +486,13 @@
     "avg_inner_state": 6.3,
     "deep_work_days": 5,
     "top_habit": "Learn 1 Thing"
+  },
+  {
+    "week_start": "2026-08-14",
+    "week_end": "2026-08-20",
+    "avg_performance": 7.5,
+    "avg_inner_state": 6.3,
+    "deep_work_days": 6,
+    "top_habit": "Deep Work"
   }
 ]
